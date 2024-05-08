@@ -1,0 +1,35 @@
+.title {
+  color: #72035d;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.field__label {
+  font-size: 0.875rem;
+  position: absolute;
+  top: 1rem;
+  left: 0.75rem;
+  pointer-events: none;
+  transition: 0.2s ease all;
+
+  &.floating {
+    background: #fff;
+    font-size: 0.875rem;
+    top: -0.75rem;
+    width: auto;
+    padding: 0 0.5rem;
+  }
+}
+
+.field__input {
+  font-family: inherit;
+  height: 1.75rem;
+  width: 15.5rem;
+  border-radius: 0.25rem;
+  border: 0.0625rem solid #757575;
+  padding: 0.75rem 0.875rem;
+}

@@ -1,0 +1,15 @@
+<h1 class="title">Time to {{ title }}</h1>
+
+<div class="field">
+  <label for="title" class="field__label" [ngClass]="(isTitleFocused || title) && 'floating'"
+    >Title</label
+  >
+  <input
+    class="field__input"
+    id="title"
+    type="text"
+    (blur)="isTitleFocused = false"
+    (focus)="isTitleFocused = true"
+    [(ngModel)]="title"
+  />
+</div>
