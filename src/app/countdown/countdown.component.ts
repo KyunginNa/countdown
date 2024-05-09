@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { FormsModule } from '@angular/forms'
+import { StorageService } from '../storage.service'
 
 @Component({
   selector: 'app-countdown',
@@ -16,7 +17,10 @@ export class CountdownComponent implements OnInit, OnDestroy {
   timeLeft: string | null = null
   private countdownInterval?: ReturnType<typeof setInterval>
 
+  constructor(private storageService: StorageService) {}
+
   ngOnInit(): void {
+    this.loadData()
     this.updateCountdown()
     this.countdownInterval = setInterval(() => {
       this.updateCountdown()
@@ -27,6 +31,14 @@ export class CountdownComponent implements OnInit, OnDestroy {
     if (this.countdownInterval) {
       clearInterval(this.countdownInterval)
     }
+  }
+
+  onTitleChange(): void {
+    this.storageService.setItem('title', this.title)
+  }
+
+  onTargetDateChange(): void {
+    this.storageService.setItem('targetDate', this.targetDate)
   }
 
   private updateCountdown(): void {
@@ -58,5 +70,17 @@ export class CountdownComponent implements OnInit, OnDestroy {
     const seconds = Math.floor((((timeDifference % msInDay) % msInHour) % msInMinute) / 1000)
 
     return `${days} days, ${hours} h, ${minutes}m, ${seconds}s`
+  }
+
+  private loadData(): void {
+    const savedTitle = this.storageService.getItem('title')
+    if (savedTitle) {
+      this.title = savedTitle
+    }
+
+    const savedTargetDate = this.storageService.getItem('targetDate')
+    if (savedTargetDate) {
+      this.targetDate = savedTargetDate
+    }
   }
 }
