@@ -12,4 +12,5 @@ import { FormsModule } from '@angular/forms'
 export class CountdownComponent {
   title: string = 'Midsummer Eve'
   isTitleFocused: boolean = false
+  targetDate: string = '2024-06-21'
 }
