@@ -1,7 +1,17 @@
 import { CommonModule } from '@angular/common'
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  HostListener,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+} from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { StorageService } from '../storage.service'
+import { Subscription, Subject } from 'rxjs'
+import { debounceTime } from 'rxjs/operators'
 
 @Component({
   selector: 'app-countdown',
@@ -10,12 +20,20 @@ import { StorageService } from '../storage.service'
   templateUrl: './countdown.component.html',
   styleUrl: './countdown.component.scss',
 })
-export class CountdownComponent implements OnInit, OnDestroy {
+export class CountdownComponent implements OnInit, OnDestroy, AfterViewInit {
   title: string = 'Midsummer Eve'
   isTitleFocused: boolean = false
   targetDate: string = '2024-06-21'
   timeLeft: string | null = null
   private countdownInterval?: ReturnType<typeof setInterval>
+
+  @ViewChild('titleContainer') titleContainer!: ElementRef
+  @ViewChild('titleElement') titleElement!: ElementRef
+  @ViewChild('timeLeftContainer') timeLeftContainer!: ElementRef
+  @ViewChild('timeLeftElement') timeLeftElement!: ElementRef
+
+  private resizeSubject = new Subject<void>()
+  private resizeSubscription?: Subscription
 
   constructor(private storageService: StorageService) {}
 
@@ -25,20 +43,40 @@ export class CountdownComponent implements OnInit, OnDestroy {
     this.countdownInterval = setInterval(() => {
       this.updateCountdown()
     }, 1000)
+
+    this.resizeSubscription = this.resizeSubject.pipe(debounceTime(50)).subscribe(() => {
+      this.adjustFontSize(this.titleContainer, this.titleElement)
+      this.adjustFontSize(this.timeLeftContainer, this.timeLeftElement)
+    })
+  }
+
+  ngAfterViewInit(): void {
+    this.titleElement.nativeElement.style.fontWeight = '800'
+    this.resizeSubject.next()
   }
 
   ngOnDestroy(): void {
     if (this.countdownInterval) {
       clearInterval(this.countdownInterval)
     }
+
+    if (this.resizeSubscription) {
+      this.resizeSubscription.unsubscribe()
+    }
+  }
+
+  @HostListener('window:resize') onWindowResize() {
+    this.resizeSubject.next()
   }
 
   onTitleChange(): void {
     this.storageService.setItem('title', this.title)
+    this.resizeSubject.next()
   }
 
   onTargetDateChange(): void {
     this.storageService.setItem('targetDate', this.targetDate)
+    this.resizeSubject.next()
   }
 
   private updateCountdown(): void {
@@ -81,6 +119,32 @@ export class CountdownComponent implements OnInit, OnDestroy {
     const savedTargetDate = this.storageService.getItem('targetDate')
     if (savedTargetDate) {
       this.targetDate = savedTargetDate
+    }
+  }
+
+  private adjustFontSize(
+    container: ElementRef<HTMLDivElement>,
+    textElement: ElementRef<HTMLHeadingElement>,
+  ) {
+    const getElementWidth = (element: ElementRef) =>
+      element.nativeElement.getBoundingClientRect().width
+    const containerWidth = getElementWidth(container)
+    let fontSize = parseInt(getComputedStyle(textElement.nativeElement).fontSize)
+
+    while (fontSize > 0 && getElementWidth(textElement) > containerWidth) {
+      fontSize--
+      textElement.nativeElement.style.fontSize = `${fontSize}px`
+    }
+
+    while (getElementWidth(textElement) < containerWidth) {
+      fontSize++
+      textElement.nativeElement.style.fontSize = `${fontSize}px`
+
+      if (getElementWidth(textElement) > containerWidth) {
+        fontSize--
+        textElement.nativeElement.style.fontSize = `${fontSize}px`
+        break
+      }
     }
   }
 }
