@@ -4,27 +4,29 @@
 <div #timeLeftContainer>
   <h2 #timeLeftElement *ngIf="timeLeft" class="timeLeft">{{ timeLeft }}</h2>
 </div>
-<div class="field">
-  <label for="title" class="field__label" [ngClass]="(isTitleFocused || title) && 'floating'"
-    >Title</label
-  >
-  <input
-    class="field__input"
-    id="title"
-    type="text"
-    (blur)="isTitleFocused = false"
-    (focus)="isTitleFocused = true"
-    [(ngModel)]="title"
-    (ngModelChange)="onTitleChange()"
-  />
-</div>
-<div class="field">
-  <label for="targetDate" class="field__label floating">Date</label>
-  <input
-    class="field__input"
-    id="targetDate"
-    type="date"
-    [(ngModel)]="targetDate"
-    (ngModelChange)="onTargetDateChange()"
-  />
+<div class="flex-container">
+  <div class="field">
+    <label for="title" class="field__label" [ngClass]="(isTitleFocused || title) && 'floating'"
+      >Title</label
+    >
+    <input
+      class="field__input"
+      id="title"
+      type="text"
+      (blur)="isTitleFocused = false"
+      (focus)="isTitleFocused = true"
+      [(ngModel)]="title"
+      (ngModelChange)="onTitleChange()"
+    />
+  </div>
+  <div class="field">
+    <label for="targetDate" class="field__label floating">Date</label>
+    <input
+      class="field__input"
+      id="targetDate"
+      type="date"
+      [(ngModel)]="targetDate"
+      (ngModelChange)="onTargetDateChange()"
+    />
+  </div>
 </div>
