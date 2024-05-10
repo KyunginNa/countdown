@@ -1,6 +1,9 @@
-<h1 class="title">Time to {{ title }}</h1>
-<h2 *ngIf="timeLeft">{{ timeLeft }}</h2>
-
+<div #titleContainer>
+  <h1 #titleElement class="title">Time to {{ title }}</h1>
+</div>
+<div #timeLeftContainer>
+  <h2 #timeLeftElement *ngIf="timeLeft" class="timeLeft">{{ timeLeft }}</h2>
+</div>
 <div class="field">
   <label for="title" class="field__label" [ngClass]="(isTitleFocused || title) && 'floating'"
     >Title</label

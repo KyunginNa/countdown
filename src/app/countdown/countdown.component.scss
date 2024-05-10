@@ -1,9 +1,11 @@
 .title {
+  white-space: nowrap;
   color: #72035d;
 }
 
-h2 {
+.timeLeft {
   font-weight: normal;
+  white-space: nowrap;
 }
 
 .field {
