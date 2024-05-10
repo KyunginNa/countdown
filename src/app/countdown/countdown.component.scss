@@ -16,6 +16,24 @@
   width: fit-content;
 }
 
+.flex-container {
+  display: flex;
+
+  @media (orientation: landscape) {
+    flex-direction: row;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 10%;
+  }
+
+  @media (orientation: portrait) {
+    margin-top: 30%;
+    flex-direction: column;
+    gap: 3rem;
+    align-items: center;
+  }
+}
+
 .field {
   display: flex;
   flex-direction: column;
