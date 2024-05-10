@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms'
 import { StorageService } from '../storage.service'
 import { Subscription, Subject } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
+import { FontAdjustmentService } from '../font-adjustment.service'
 
 @Component({
   selector: 'app-countdown',
@@ -35,7 +36,10 @@ export class CountdownComponent implements OnInit, OnDestroy, AfterViewInit {
   private resizeSubject = new Subject<void>()
   private resizeSubscription?: Subscription
 
-  constructor(private storageService: StorageService) {}
+  constructor(
+    private storageService: StorageService,
+    private fontAdjustmentService: FontAdjustmentService,
+  ) {}
 
   ngOnInit(): void {
     this.loadData()
@@ -45,8 +49,7 @@ export class CountdownComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 1000)
 
     this.resizeSubscription = this.resizeSubject.pipe(debounceTime(50)).subscribe(() => {
-      this.adjustFontSize(this.titleContainer, this.titleElement)
-      this.adjustFontSize(this.timeLeftContainer, this.timeLeftElement)
+      this.adjustAllFontSizes()
     })
   }
 
@@ -122,29 +125,8 @@ export class CountdownComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  private adjustFontSize(
-    container: ElementRef<HTMLDivElement>,
-    textElement: ElementRef<HTMLHeadingElement>,
-  ) {
-    const getElementWidth = (element: ElementRef) =>
-      element.nativeElement.getBoundingClientRect().width
-    const containerWidth = getElementWidth(container)
-    let fontSize = parseInt(getComputedStyle(textElement.nativeElement).fontSize)
-
-    while (fontSize > 0 && getElementWidth(textElement) > containerWidth) {
-      fontSize--
-      textElement.nativeElement.style.fontSize = `${fontSize}px`
-    }
-
-    while (getElementWidth(textElement) < containerWidth) {
-      fontSize++
-      textElement.nativeElement.style.fontSize = `${fontSize}px`
-
-      if (getElementWidth(textElement) > containerWidth) {
-        fontSize--
-        textElement.nativeElement.style.fontSize = `${fontSize}px`
-        break
-      }
-    }
+  private adjustAllFontSizes(): void {
+    this.fontAdjustmentService.adjustFontSize(this.titleContainer, this.titleElement)
+    this.fontAdjustmentService.adjustFontSize(this.timeLeftContainer, this.timeLeftElement)
   }
 }
