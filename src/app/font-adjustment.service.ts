@@ -4,7 +4,10 @@ import { ElementRef, Injectable } from '@angular/core'
   providedIn: 'root',
 })
 export class FontAdjustmentService {
-  adjustFontSize(container: ElementRef, textElement: ElementRef) {
+  adjustFontSize(
+    container: ElementRef<HTMLDivElement>,
+    textElement: ElementRef<HTMLHeadingElement>,
+  ) {
     const containerWidth = container.nativeElement.clientWidth
 
     let fontSize = parseInt(getComputedStyle(textElement.nativeElement).fontSize)
