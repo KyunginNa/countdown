@@ -54,7 +54,7 @@ export class CountdownComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.resizeSubject.next()
+    setTimeout(() => this.resizeSubject.next(), 300)
   }
 
   ngOnDestroy(): void {
