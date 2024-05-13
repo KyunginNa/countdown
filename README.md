@@ -1,33 +1,80 @@
-# Description & requirements
+# Countdown to D-day App
 
-Your objective in this assignment is to create a countdown app built using this boilerplate (+ any other tools of your choice) that follows the design specifications provided [in this Figma file](https://www.figma.com/file/UPEugUz5jM9IzIkWft2Y9m/NC-challenge). The app should work in portrait as well as in landscape mode while the text displayed on the screen should always fill the whole width of the screen.
+## Overview
 
-In your app, it should be possible to define the end date and the name of the event taking place on that day. The countdown should always start from the current time and it should display the time remaining to your specified end date in the following format: Days, Hours(h), Minutes(m), Seconds(s) *(e.g., 3 days, 15 h, 20 m, 5 s)*. To make sure the text always covers the entire screen width, it should resize whenever necessary to achieve this objective.
+This Angular app functions as a countdown timer for events, enabling users to specify the date and
+name of the event. It displays the remaining time to the event in the format of Days, Hours(h),
+Minutes(m), and Seconds(s). Both the event title and countdown dynamically adjust their display to
+fit the width of the screen.
 
-The purpose of the solution is to “fit” the input text into an element in one line (no line breaks, filling the whole width) using the maximum possible font-size.
+## Features
 
-Please make sure that your text fit solution is reusable and that the event name, as well as the specified end date, are persisted between page reloads.
+- **Display Countdown:** The countdown starts from the current time and displays the time remaining
+  to the specified end date.
+- **Responsive Design:** The app seamlessly adapts to all screen sizes, including both portrait and
+  landscape modes, ensuring that the headers always fill the entire width of the screen.
+- **Persistent Data Between Page Loads:** The event name and end date specified by the user are
+  persisted between page reloads.
 
-**Once you feel ready to share your solution, please:**
+## Possible Improvements
 
-- Commit the code to Github or your favorite VCS.
-- Write a simple README.md explaining how to set up the project (assuming it’s read by a developer who is experienced with all the used tools).
-- Include a URL to a deployed working Web page (use netlify.com or github.io or whatever simple hosting tool that works for you).
+- **Improve Initial Render:** The UI may appear jumpy upon initial render due to font size
+  adjustments for the title and countdown after the elements are rendered. Consider adding a loading
+  state or animation to gracefully resolve this issue.
+- **Restrict Countdown for Future Dates:** Currently, the countdown displays "-" if users choose the
+  past dates. Implement restrictions on the UI so that users can only select future dates, enhancing
+  the user experience and accuracy of the countdown.
+- **Custom Date Picker UI:** Add a custom date picker UI to hide the calendar icon.
 
-Please put the resulting project in a public github repository and provide a link to it. Please make it easy for us to test the result.
+## Installation
 
-## Optional goals
+To run the app locally, follow these steps:
 
-You’re free to complete this additional goal to get a higher score if you want!
+1. Fork and clone the repository to your local machine:
 
-1. Write suggestions of how this solution can be improved. Describe what the next steps would be in order for this app to be production ready. 
+```
+git clone git@github.com:KyunginNa/countdown.git
+```
 
-## Running the app
+2. Navigate to the project directory:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files. 
+```
+cd countdown
+```
 
-## Further help
+3. Install dependencies:
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.6.
+```
+npm install
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+4. Start the development server:
+
+```
+ng serve
+```
+
+5. Open your browser and navigate to `http://localhost:4200/`.
+
+## Usage
+
+1. Specify the end date of the event and the event name in the designated input fields.
+2. The countdown will start automatically from the current time.
+3. The countdown format will be displayed as Days, Hours(h), Minutes(m), and Seconds(s).
+4. Ensure that the text always covers the entire screen width, resizing as necessary.
+
+## Deployment
+
+The app is deployed and accessible at [nc-countdown.netlify.app](https://nc-countdown.netlify.app).
+
+## Technologies Used
+
+- Angular
+
+## Author
+
+- [Kyungin Na](https://github.com/KyunginNa)
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
