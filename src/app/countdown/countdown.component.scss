@@ -1,13 +1,19 @@
+.container {
+  overflow: hidden;
+}
+
 .title {
   white-space: nowrap;
   color: #72035d;
   margin: 0;
+  width: fit-content;
 }
 
 .timeLeft {
   font-weight: normal;
   white-space: nowrap;
   margin: 0;
+  width: fit-content;
 }
 
 .flex-container {

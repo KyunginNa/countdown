@@ -39,7 +39,7 @@ export class CountdownComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private storageService: StorageService,
     private fontAdjustmentService: FontAdjustmentService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadData()
@@ -47,14 +47,14 @@ export class CountdownComponent implements OnInit, OnDestroy, AfterViewInit {
     this.countdownInterval = setInterval(() => {
       this.updateCountdown()
     }, 1000)
-
     this.resizeSubscription = this.resizeSubject.pipe(debounceTime(50)).subscribe(() => {
       this.adjustAllFontSizes()
     })
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => this.resizeSubject.next(), 300)
+    this.titleElement.nativeElement.style.fontWeight = '800';
+    this.resizeSubject.next()
   }
 
   ngOnDestroy(): void {

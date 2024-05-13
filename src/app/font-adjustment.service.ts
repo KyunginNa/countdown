@@ -8,18 +8,24 @@ export class FontAdjustmentService {
     container: ElementRef<HTMLDivElement>,
     textElement: ElementRef<HTMLHeadingElement>,
   ) {
-    const containerWidth = container.nativeElement.clientWidth
-
+    const getElementWidth = (element: ElementRef) => element.nativeElement.getBoundingClientRect().width;
+    const containerWidth = getElementWidth(container);
     let fontSize = parseInt(getComputedStyle(textElement.nativeElement).fontSize)
 
-    while (fontSize > 0 && textElement.nativeElement.scrollWidth > containerWidth) {
+    while (fontSize > 0 && getElementWidth(textElement) > containerWidth) {
       fontSize--
       textElement.nativeElement.style.fontSize = `${fontSize}px`
     }
 
-    while (textElement.nativeElement.scrollWidth <= containerWidth) {
+    while (getElementWidth(textElement) < containerWidth) {
       fontSize++
       textElement.nativeElement.style.fontSize = `${fontSize}px`
+
+      if (getElementWidth(textElement) > containerWidth) {
+        fontSize--;
+        textElement.nativeElement.style.fontSize = `${fontSize}px`;
+        break;
+      }
     }
   }
 }
