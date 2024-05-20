@@ -54,7 +54,7 @@ export class CountdownComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.titleElement.nativeElement.style.fontWeight = '800'
+    // this.titleElement.nativeElement.style.fontWeight = '800'
     this.resizeSubject.next()
   }
 
